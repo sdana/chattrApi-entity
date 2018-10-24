@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using ChattrApi.Data;
+using ChattrApi.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChattrApi
 {
@@ -31,11 +33,15 @@ namespace ChattrApi
         {
                 services.AddDbContext<ApplicationDbContext>(options =>
                    options.UseSqlite(
+                       
                        Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-                services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
-                .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //    services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
+            //    .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
