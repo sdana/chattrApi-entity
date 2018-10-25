@@ -10,5 +10,11 @@ namespace ChattrApi.Models
     public class User : IdentityUser
     {
         public string AvatarUrl { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
     }
 }
