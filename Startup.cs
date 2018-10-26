@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using ChattrApi.Data;
 using ChattrApi.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using ChattrApi.Hubs;
 
 namespace ChattrApi
 {
@@ -39,6 +41,15 @@ namespace ChattrApi
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddSignalR();
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder.AllowAnyMethod().AllowAnyHeader()
+                       .WithOrigins("http://localhost:3000")
+                       .AllowCredentials();
+            }));
+
             //    services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
             //    .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -59,6 +70,11 @@ namespace ChattrApi
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(options =>
+            {
+                options.MapHub<ChatHub>("/Hubs/ChatHub");
+            });
         }
     }
 }

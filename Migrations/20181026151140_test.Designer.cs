@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChattrApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181025161758_AddedFirstAndLastNameToUserModel")]
-    partial class AddedFirstAndLastNameToUserModel
+    [Migration("20181026151140_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -7,12 +7,14 @@ using ChattrApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace ChattrApi.Controllers
 {
-    [Authorize]
+    
     [Route("api/user")]
     [ApiController]
+    
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -28,10 +30,12 @@ namespace ChattrApi.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<User> GetUser()
+        [EnableCors("CorsPolicy")]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
         {
             User currentUser = await GetCurrentUserAsync();
-            return currentUser;
+            return Ok(currentUser);
         }
     }
 }
